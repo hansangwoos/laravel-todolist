@@ -20,6 +20,8 @@ class TodoController extends Controller
 
         // 완료되지않은 일만 가져오기
         // $todos = Todo::where('is_completed', false)->get();
+
+        return view('todos.index',compact('todos'));
     }
 
     /**
@@ -28,6 +30,7 @@ class TodoController extends Controller
     public function create()
     {
         //
+        return view('todos.create');
     }
 
     /**
@@ -36,6 +39,21 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         //
+        try {
+            $post = new Todo();
+            $post->title = $request->title;
+            $post->description = $request->description;
+            $post->created_at = NOW();
+            $post->updated_at = NOW();
+
+            $post->save();
+
+            $todos = Todo::all();
+            return view('todos.index',compact('todos'))->with("success",'Todolist 추가 완료');
+        } catch (\Throwable $th) {
+            return view('todos.index',compact('todos'))->with('error','에러가 발생했습니다.');
+        }
+
     }
 
     /**
@@ -51,15 +69,29 @@ class TodoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $todo = Todo::find($id);
+
+        return view("todos.edit",compact("todo")) ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Todo $todo)
     {
         //
+        try {
+            $todo->title = $request->title;
+            $todo->description = $request->description;
+
+            $todo->save();
+
+            return redirect()->route('todos.index')->with('success','수정이 완료 되었습니다.');
+
+        } catch (\Throwable $th) {
+            return back()->with('error','수정 중 오류 발생');
+
+        }
     }
 
     /**
@@ -68,5 +100,11 @@ class TodoController extends Controller
     public function destroy(string $id)
     {
         //
+        $post = Todo::find($id);
+        $post->delete();
+
+        $todos = Todo::all();
+
+        return view('todos.index',compact('todos'))->with('success','삭제가 완료되었습니다.');
     }
 }
