@@ -83,6 +83,7 @@ class TodoController extends Controller
         try {
             $todo->title = $request->title;
             $todo->description = $request->description;
+            $todo->is_completed = $request->is_completed;
 
             $todo->save();
 
