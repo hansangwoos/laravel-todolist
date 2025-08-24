@@ -34,10 +34,8 @@
 Laravel 프레임워크를 학습하며 개발한 완전한 CRUD 기능을 가진 TodoList 애플리케이션입니다
 MVC패턴과 모던 웹 개발 기술을 적용하여 구현했습니다.
 
-주요 기능
-<table>
-<tr>
-<td >
+
+```
 todo-app/
 ├── app/
 │   ├── Http/Controllers/
@@ -57,7 +55,5 @@ todo-app/
 │       └── edit.blade.php           # 할일 수정
 └── routes/
     └── web.php                      # 라우트 정의
+```
 
-</td>
-</tr>
-</table>
