@@ -49,9 +49,11 @@ class TodoController extends Controller
             $post->save();
 
             $todos = Todo::all();
-            return view('todos.index',compact('todos'))->with("success",'Todolist 추가 완료');
+            return redirect()->route("todos.index")->with("success",'Todolist 추가 완료');
+
         } catch (\Throwable $th) {
-            return view('todos.index',compact('todos'))->with('error','에러가 발생했습니다.');
+            return redirect()->route("todos.index")->with("error",'Todolist 추가 오류');
+
         }
 
     }
@@ -62,6 +64,9 @@ class TodoController extends Controller
     public function show(string $id)
     {
         //
+        $todo = Todo::find($id);
+
+        return view('todos.show',compact("todo"));
     }
 
     /**
@@ -71,7 +76,7 @@ class TodoController extends Controller
     {
         $todo = Todo::find($id);
 
-        return view("todos.edit",compact("todo")) ;
+        return view("todos.edit",compact("todo"));
     }
 
     /**
@@ -106,6 +111,6 @@ class TodoController extends Controller
 
         $todos = Todo::all();
 
-        return view('todos.index',compact('todos'))->with('success','삭제가 완료되었습니다.');
+        return redirect()->route("todos.index")->with("success","삭제가 완료 되었습니다.");
     }
 }
